@@ -1,0 +1,189 @@
+{% extends 'paper/base.html'%}
+
+
+{% block body %}
+
+		{%if user.role == 1%}
+    	<div class="col-lg-6">
+    		<div class="teacherBatch">
+        		<form >
+        			<center>
+
+           				<h2 >Generate Test</h2>
+            			<table border="0">
+            			<tr>
+            			<td>Select Question Bank</td>
+            				<td>
+            					<select>
+            					<option value="qbank1something">Qb1</option>
+            					<option value="qbanks2omething">Qb2</option>
+            					<option value="qbankso3mething">Qb3</option>
+            					<option value="qbanksom4ething">Qb4</option>
+            					<option value="qbanksome5thing">Qb5</option>
+            					<option value="qbanksomet6hing">Qb6</option>
+             					</select>
+             				</td>
+             			</tr>
+             			<tr>
+             			<td>number of 3 markers</td>
+             			<td><input type="number"/></td>
+             			</tr>
+        	 			<tr>
+        	 			<td>number of 4 markers</td>
+        	 			<td><input type="number"/></td>
+        	 			</tr>
+        	 			<tr><td>number of 7 markers</td>
+        	 			<td><input type="number"/></td>
+        	 			</tr>
+             			<tr>
+             			<td>test id</td>
+             			<td><input type="text"/></td>
+             			</tr>
+        				</table>
+            			<br/>
+            			<button class="btn btn-default" style="width:60%">Generate Test</button>
+        			</center>
+        		</form>
+    		</div>
+		</div>
+    	<div class="col-lg-6">
+    		<div  class="teacherBatch">
+    			<center>
+            		<h2>Test Evaluation</h2>
+            		<table>
+            			<td style="width: 100px">Select Test</td>
+                		<td><select>
+            				<option value="qbank1something">Test1</option>
+            				<option value="qbanks2omething">Test2</option>
+            				<option value="qbankso3mething">Test3</option>
+            				<option value="qbanksom4ething">Test4</option>
+            				<option value="qbanksome5thing">Test5</option>
+            				<option value="qbanksomet6hing">Test6</option></select></td>
+            		</table>
+            		<br/>
+        			<button class="btn btn-default" style="width:60%">Send Evaluation Request</button>
+        			<hr>
+        			<h2>View Score Sheet</h2>
+        			<table>
+        				<td style="width: 100px">Select Test</td>
+               			<td><select>
+            			<option value="qbank1something">Test1</option>
+            			<option value="qbanks2omething">Test2</option>
+            			<option value="qbankso3mething">Test3</option>
+            			<option value="qbanksom4ething">Test4</option>
+            			<option value="qbanksome5thing">Test5</option>
+            			<option value="qbanksomet6hing">Test6</option></select></td>
+            		</table>
+            		<br/>
+            		<button class="btn btn-default" style="width:60%">View Score Sheet</button>
+        		</center>
+    		</div>
+		</div>
+
+
+    		<div class="col-lg-6">
+    			<div class="teacherBatch">
+        			<center>
+            			<h2>Question Banks</h2>
+        				<button class="btn btn-default" style="width:60%">Download Qbank Template</button><br/>
+        				<button class="btn btn-default" style="width:60%">Upload Question Bank</button><br/>
+        				<button class="btn btn-default" style="width:60%">update/Delete Qbank</button>
+        			</center>
+        		</div>
+        	</div>
+		{%endif%}
+		{%if user.role == 3%}
+    	<div class="col-lg-6">
+    		<div  class="studentBatch">
+    			<center>
+       				<h2>Check your Marks</h2>
+        			<table>
+        				<td style="width: 100px">Select Test</td>
+        	       		<td><select>
+        	    		<option value="qbank1something">Test1</option>
+        	    		<option value="qbanks2omething">Test2</option>
+           		 		<option value="qbankso3mething">Test3</option>
+            			<option value="qbanksom4ething">Test4</option>
+            			<option value="qbanksome5thing">Test5</option>
+            			<option value="qbanksomet6hing">Test6</option></select></td>
+            		</table>
+            		<br/>
+
+       				<button class="btn btn-default" style="width:60%">Generate Test</button>
+    			</center>
+    		</div>
+    	</div>
+
+    	<div class="col-lg-6" >
+    		<div  class="studentBatch">
+    			<form >
+        			<center>
+            			<h2>Give Test</h2>
+            			<table border="0">
+            				<tr>
+            				<td>Enter TestID</td>
+            				<td><input type="text"/></td></tr>
+             				<tr>
+             				<td>User Password</td>
+             				<td><input type="number"/></td>
+             				</tr>
+        	 				<tr>
+        	 				<td>Admin Password</td>
+        	 				<td><input type="number"/></td>
+        	 				</tr>
+        				</table>
+            			<br/>
+            			<button class="btn btn-default" style="width:60%">Best Of Luck</button>
+        			</center>
+        		</form>
+    		</div>
+    	</div>
+		{%endif%}
+		{%if user.role == 2%}
+		<div class="col-lg-6" >
+    		<div  class="studentBatch">
+    			<form action="{%url 'removeUser'%}" method="post">
+					{% csrf_token %}
+        			<center>
+            			<h2>Remove User</h2>
+						{{message}}
+            			<table border="0">
+            				<tr>
+            				<td>Enter User Id</td>
+            				<td><input type="text" name="user_id"/></td></tr>
+             				<tr>
+             				<td>Admin Password</td>
+             				<td><input type="password" name="password"/></td>
+             				</tr>
+        				</table>
+            			<br/>
+            			<button class="btn btn-default" type="submit" style="width:60%">Remove</button>
+        			</center>
+        		</form>
+    		</div>
+    	</div>
+		<div class="col-lg-6">
+    		<div  class="studentBatch">
+    			<form action="{%url 'evalTest'%}" method="post">
+					<center>
+            			<h2>Test Evaluation</h2>
+            			<table>
+            				<td style="width: 100px">Select Test</td>
+                			<td><select>
+            						<option value="qbank1something">Test1</option>
+            					<option value="qbanks2omething">Test2</option>
+            					<option value="qbankso3mething">Test3</option>
+            					<option value="qbanksom4ething">Test4</option>
+            					<option value="qbanksome5thing">Test5</option>
+            					<option value="qbanksomet6hing">Test6</option></select></td>
+            			</table>
+            			<br/>
+						<button class="btn btn-default" style="width:60%">Evaluation Requested Tests</button>
+					</center>
+				</form>
+			</div>
+		</div>
+		{%endif%}
+
+{% endblock %}
+

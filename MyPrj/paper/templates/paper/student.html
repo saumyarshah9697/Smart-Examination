@@ -1,0 +1,60 @@
+{% extends 'paper/base.html'%}
+
+{% block body %}
+
+<p style="color:red">{{message}}</p>
+<!--Check Marks-->
+<div class="col-lg-6">
+	<div  class="studentBatch">
+		<center>
+			<h2>Check your Marks</h2>
+			<table>
+				<tr>
+				<td style="width: 100px">Select Test</td>
+				<td>
+					<select required>
+						<option value="qbank1something">Test1</option>
+						<option value="qbanks2omething">Test2</option>
+						<option value="qbankso3mething">Test3</option>
+						<option value="qbanksom4ething">Test4</option>
+						<option value="qbanksome5thing">Test5</option>
+						<option value="qbanksomet6hing">Test6</option>
+					</select>
+				</td>
+				</tr>
+			</table>
+			<br/>
+
+			<button class="btn btn-default" style="width:60%">Check</button>
+		</center>
+	</div>
+</div>
+
+    	<!--GIve Test-->
+		<div class="col-lg-6" >
+    		<div  class="studentBatch">
+    			<form action="{% url 'giveTest' %}" method="post">{% csrf_token %}
+        			<center>
+            			<h2>Give Test</h2>
+            			<table border="0">
+            				<tr>
+            				<td>Enter TestID</td>
+            				<td><input type="text" name="test_id" required/></td></tr>
+             				<tr>
+             				<td>User Password</td>
+             				<td><input type="password" name="user_pass" required/></td>
+             				</tr>
+        	 				<tr>
+        	 				<td>Admin Password</td>
+        	 				<td><input type="password" name="admin_pass" required/></td>
+        	 				</tr>
+        				</table>
+            			<br/>
+            			<button class="btn btn-default" style="width:60%">Best Of Luck</button>
+        			</center>
+        		</form>
+    		</div>
+    	</div>
+
+
+{%endblock%}

@@ -1,0 +1,211 @@
+{% extends 'paper/base.html'%}
+{%load staticfiles%}
+
+{% block body %}
+
+
+<script type="text/javascript">
+
+   				function changeFunc(select_set,hidden_field) {
+					var selectBox = document.getElementById(select_set);
+    				document.getElementById(hidden_field).value = selectBox.options[selectBox.selectedIndex].value;
+   				}
+</script>
+
+
+<!--Generete Test-->
+<div class="col-lg-6">
+    <div class="teacherBatch">
+            <center>
+                <h2 >Generate Test</h2>
+                <p style="color:red">{{message1}}</p>
+                <table border="0"> <center>
+                    <tr>
+            			<td>Select Question Bank</td>
+            			<td>
+            			<select required id="qbank_sel" onclick="changeFunc('qbank_sel','qbank_text')">
+            					{%for qbank in qbs%}
+            			    	    <option value='{{qbank.qbank_id}}'> {{qbank.qbank_id}}</option>
+            			    	{% endfor %}
+             			</select>
+             			</td>
+                        </tr>
+
+                        <form method="post" action="{% url 'createTest'%}">{% csrf_token %}
+                        <tr><td></td>
+                        <td><input type="text" required style="width:100%" placeholder="qbank_id" name="qb" id="qbank_text" style="width:60%"/></td>
+                        </tr>
+             			<tr>
+             			<td>number of 3 markers</td>
+                        <td><input type="text" required name="mark3" default="0"/></td>
+             			</tr>
+        	 			<tr>
+        	 			<td>number of 4 markers</td>
+        	 			<td><input type="text" name="mark4" required default="0"/></td>
+        	 			</tr>
+        	 			<tr><td>number of 7 markers</td>
+        	 			<td><input type="text" required name="mark7" default="0"/></td>
+        	 			</tr>
+             			<tr>
+             			<td>test id</td>
+             			<td><input type="text" required name="test_id"/></td>
+             			</tr>
+                        <tr>
+             			<td>Test password</td>
+             			<td><input type="text" required name="test_pass"/></td>
+             			</tr>
+                            <tr><td colspan="2"><button style="width:100%" class="btn btn-default" type="submit">Generate Test</button></td></tr>
+                        </form>
+        			</center>
+                    </table>
+
+            </center>
+    		</div>
+		</div>
+
+<!--Test Eval-->
+<div class="col-lg-6">
+    		<div  class="teacherBatch">
+    			<center>
+            		<h2>Test Evaluation</h2>
+                    <p style="color:red">{{message2}}</p>
+
+            		<table>
+            			<td style="width: 100px">Select Test</td>
+                		<td><select required id="test_sel" onclick="changeFunc('test_sel','test_text');" >
+            				{% for test in tests %}
+            			    	{% if not test.request %}
+									<option value="{{test.test_id}}">{{test.test_id}}</option>
+								{% endif %}
+							{% endfor %}
+						</select></td>
+
+					<br/>
+					<form action="reqCheck" method="post">{% csrf_token %}
+            			<tr><td></td><td>
+						<input type="text" required name="test" id="test_text" placeholder="Test It">
+						</td></tr>
+						<tr><td colspan="2">
+						<button class="btn btn-default" type="submit" style="width:100%">Send Evaluation Request</button>
+						</td></tr>
+					</form>
+					</table>
+					<hr/>
+        			<h2>View Score Sheet</h2>
+        			<table>
+        				<td style="width: 100px">Select Test</td>
+               			<td><select required id="test_sel_list" onclick="changeFunc('test_sel_list','test_text_list');">
+            			{%for test in tests%}
+							{% if test.checked %}
+            			    	<option value="{{test.test_id}}">{{test.test_id}}</option>
+							{% endif %}
+						{% endfor %}
+						</select></td>
+            		<form action="ScoreSheet" method="post">{% csrf_token %}
+						<tr><td></td><td>
+						<input type="text" required name="test" id="test_text_list" placeholder="Test It">
+						</td></tr>
+            		<tr><td colspan="2"><button class="btn btn-default" style="width:100%">View Score Sheet</button></td></tr>
+					</form>
+        			</table>
+				</center>
+    		</div>
+		</div>
+
+
+<!-- Upload  Qbanks-->
+<div class="col-lg-6">
+	<div class="teacherBatch">
+		<center>
+			<h2>Question Banks</h2>
+			<p style="color:red">{{message3}}</p>
+			<a href="{% static 'paper/qbtemplate.xls'%}" download>
+				<button class="btn btn-default" style="width:60%">Download Qbank Template</button>
+			</a>
+			<br/>
+			<a href="{% static 'paper/anstemplate.xls'%}" download>
+				<button class="btn btn-default" style="width:60%">Download Ans Template</button><br/>
+			</a>
+			<hr/>
+			<form action="{% url 'uploadQb'%}" method="post" enctype="multipart/form-data">{% csrf_token %}
+            	<table border='0' style="width:65%">
+					{{uploadform.as_p}}
+				</table>
+
+				<button class="btn btn-default" type='submit' style="width:60%">Upload Question Bank</button><br/>
+
+			</form>
+		</center>
+	</div>
+</div>
+
+<!--Download Delete Qbank-->
+<div class="col-lg-6">
+	<div class="teacherBatch">
+		<center>
+			<h2>Question Banks</h2>
+            <p style="color:red">{{message4}}</p>
+
+			<!--Download Uploaded Qbank-->
+        	<select style="width:60%" required id="dwnldqb_sel" onclick="changeFunc('dwnldqb_sel','dwnldqb_text');" >
+                {%for qbank in qbs%}
+                	<option value="{{qbank.qbank_id}}">{{qbank.qbank_id}}</option>
+               	{% endfor %}
+            </select><br/>
+			<form method="post" action="{% url 'downloadQb'%}">{% csrf_token %}
+            	<input type="text" required placeholder="qbank_id" name="qb" id="dwnldqb_text" style="width:60%"/>
+				<button class="btn btn-default" style="width:60%">Download Uploaded Qbank</button>
+            </form>
+			<hr>
+
+			<!--Download Uploaded Ans For Qbank-->
+			<select style="width:60%" required id="dwnldans_sel" onclick="changeFunc('dwnldans_sel','dwnldans_text');" >
+                {%for qbank in qbs%}
+                	<option value="{{qbank.qbank_id}}">{{qbank.qbank_id}}</option>
+               	{% endfor %}
+            </select><br/>
+			<form method="post" action="{% url 'downloadAns'%}">{% csrf_token %}
+            	<input type="text" required placeholder="qbank_id" name="qb" id="dwnldans_text" style="width:60%"/>
+				<button class="btn btn-default" style="width:60%">Download Uploaded Ans</button>
+            </form>
+			<hr>
+
+			<!--Delete Qbank-->
+			<select id="delqb_sel" onclick="changeFunc('delqb_sel','delqb_text');" style="width:60%" required>
+				{%for qbank in qbs%}
+                	<option value="{{qbank.qbank_id}}">{{qbank.qbank_id}}</option>
+               	{% endfor %}
+				</select>
+			<form action="{% url 'delqb'%}" method="post">{% csrf_token %}
+				<input type="text" required placeholder="qbank_id" name="qb" id="delqb_text" style="width:60%"/>
+				<br/>
+				<button class="btn btn-default" style="width:60%">Delete Qbank</button>
+			</form>
+		</center>
+	</div>
+</div>
+
+<!--list of tests and question banks-->
+<div class="col-lg-6">
+	<div class="studentBatch">
+		<center>
+			<h4>List of Question Banks</h4>
+			<ol style="width:20%">
+				{%for qbank in qbs%}
+				<li>{{qbank.qbank_id}}</li>
+				{% endfor %}
+			</ol>
+			<br/><hr/><br/>
+
+			<h4>List of Tests</h4>
+			<ol style="width:20%">
+				{%for test in tests%}
+				<li>{{test.test_id}}</li>
+				{% endfor %}
+			</ol>
+		</center>
+	</div>
+</div>
+
+
+{%endblock%}

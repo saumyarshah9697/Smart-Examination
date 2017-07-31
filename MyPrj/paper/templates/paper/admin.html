@@ -1,0 +1,49 @@
+{% extends 'paper/base.html'%}
+{% block body %}
+<div class="col-md-2"></div>
+<div class="col-md-4" >
+    <div  class="studentBatch"  style="min-height: 230px">
+        <form action="{%url 'removeUser'%}" method="post">{% csrf_token %}
+            <center>
+           		<h2>Remove User</h2>
+				<p style="color:red"> {{message}} </p>
+           		<table border="0">
+           			<tr>
+           				<td>Enter User Id</td>
+           				<td><input type="text" name="user_id" required/></td></tr>
+           			<tr>
+           				<td>Admin Password</td>
+           				<td><input type="password" name="password" required/></td>
+           			</tr>
+       			</table>
+           		<br/>
+           		<button class="btn btn-default" type="submit" style="width:60%">Remove</button>
+       		</center>
+       	</form>
+    </div>
+</div>
+<div class="col-md-4">
+    <div  class="studentBatch"  style="min-height: 230px">
+        <form action="{%url 'evalTest'%}" method="post">
+			<center>
+                <h2>Test Evaluation</h2>
+                <table>
+                    <td style="width: 100px">Select Test</td>
+                    <td>
+                        <select required>
+                            <option value="qbank1something">Test1</option>
+                            <option value="qbanks2omething">Test2</option>
+                            <option value="qbankso3mething">Test3</option>
+                            <option value="qbanksom4ething">Test4</option>
+                            <option value="qbanksome5thing">Test5</option>
+                            <option value="qbanksomet6hing">Test6</option>
+                        </select>
+                    </td>
+                </table>
+            	<br/>
+                <button class="btn btn-default" style="width:60%">Evaluation Requested Tests</button>
+            </center>
+        </form>
+    </div>
+</div>
+{%endblock%}
